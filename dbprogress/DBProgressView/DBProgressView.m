@@ -17,7 +17,7 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
     CGFloat lastHeightValue_;
 }
 
-- (instancetype)initWithRadius:(CGFloat)radius
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -27,20 +27,9 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
         
         lastHeightValue_ = 0;
         
-        bgLayer_ = [CALayer layer];
-        bgLayer_.backgroundColor = [UIColor greenColor].CGColor;
-        [self.layer addSublayer:bgLayer_];
-
-        progressLayer_ = [CALayer layer];
-        progressLayer_.backgroundColor = [UIColor blueColor].CGColor;
-        progressLayer_.anchorPoint = (CGPoint){ 0.5, 1.0 };
-        [self.layer addSublayer:progressLayer_];
+        _animationDuration = .3;
         
-        maskLayer_ = [CALayer layer];
-        maskLayer_.backgroundColor = [UIColor whiteColor].CGColor;
-        maskLayer_.cornerRadius = radius;
-        
-        self.layer.mask = maskLayer_;
+        [self db_buildUI];
     }
     return self;
 }
@@ -64,13 +53,34 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
     CABasicAnimation *grow = [CABasicAnimation animationWithKeyPath:@"bounds.size.height"];
     grow.fromValue = @(lastHeightValue_);
     grow.toValue = @(toValue);
-    grow.duration = .3;
+    grow.duration = self.animationDuration;
     grow.fillMode = kCAFillModeForwards;
     grow.removedOnCompletion = NO;
 
     [progressLayer_ addAnimation:grow forKey:kDBGrowHeightAnimationKey];
     
     lastHeightValue_ = toValue;
+}
+
+
+#pragma mark - Private methods
+
+- (void)db_buildUI
+{
+    bgLayer_ = [CALayer layer];
+    bgLayer_.backgroundColor = [UIColor greenColor].CGColor;
+    [self.layer addSublayer:bgLayer_];
+    
+    progressLayer_ = [CALayer layer];
+    progressLayer_.backgroundColor = [UIColor blueColor].CGColor;
+    progressLayer_.anchorPoint = (CGPoint){ 0.5, 1.0 };
+    [self.layer addSublayer:progressLayer_];
+    
+    maskLayer_ = [CALayer layer];
+    maskLayer_.backgroundColor = [UIColor whiteColor].CGColor;
+    maskLayer_.cornerRadius = CGRectGetMidX(self.bounds);
+    
+    self.layer.mask = maskLayer_;
 }
 
 @end

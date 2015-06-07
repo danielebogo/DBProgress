@@ -24,11 +24,12 @@
     
     items_ = @[ @"0", @"50.0", @"100.0", @"14.0", @"35.0", @"67.0" ];
     
-    progressView_ = [[DBProgressView alloc] initWithRadius:100.0];
+    progressView_ = [DBProgressView new];
     [self.view addSubview:progressView_];
     
     UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:items_];
     segmented.translatesAutoresizingMaskIntoConstraints = NO;
+    segmented.selectedSegmentIndex = 0;
     [segmented addTarget:self action:@selector(db_segmentedAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:segmented];
     

@@ -11,7 +11,6 @@
 @interface DBProgressView : UIView
 
 @property (nonatomic, assign) CGFloat progress;
-
-- (instancetype)initWithRadius:(CGFloat)radius;
+@property (nonatomic, assign) CGFloat animationDuration;
 
 @end
