@@ -11,11 +11,13 @@
 static CGFloat maxPercentage = 100.0;
 static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
 
+
 @implementation DBProgressView {
     CALayer *bgLayer_, *progressLayer_;
     CALayer *maskLayer_;
     CGFloat lastHeightValue_;
 }
+
 
 - (instancetype)init
 {
@@ -25,7 +27,7 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
         
         self.backgroundColor = [UIColor clearColor];
         
-        lastHeightValue_ = 0;
+        lastHeightValue_ = 0.0;
         
         _animationDuration = .3;
         

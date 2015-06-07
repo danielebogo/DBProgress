@@ -25,6 +25,7 @@
     items_ = @[ @"0", @"50.0", @"100.0", @"14.0", @"35.0", @"67.0" ];
     
     progressView_ = [DBProgressView new];
+    progressView_.progress = 0.0;
     [self.view addSubview:progressView_];
     
     UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:items_];
@@ -45,8 +46,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    progressView_.progress = 0.0;
 }
 
 - (void)db_segmentedAction:(UISegmentedControl *)control
