@@ -10,7 +10,39 @@
 
 @interface DBProgressView : UIView
 
+/**
+ *  The percentage progress value
+ */
 @property (nonatomic, assign) CGFloat progress;
+
+/**
+ *  The duration of the animation
+ */
 @property (nonatomic, assign) CGFloat animationDuration;
+
+/**
+ *  The width of the border
+ */
+@property (nonatomic, assign) CGFloat borderWidth;
+
+/**
+ *  The color of the border
+ */
+@property (nonatomic, strong) UIColor *borderColor;
+
+/**
+ *  The progress background color
+ */
+@property (nonatomic, strong) UIColor *progressColor;
+
+/**
+ *  Block invoked when animation did start
+ */
+@property (nonatomic, copy) void(^progressAnimationDidStart)();
+
+/**
+ *  Block invoked when animation is finished
+ */
+@property (nonatomic, copy) void(^progressAnimationDidFinish)(BOOL finish, CGFloat progress);
 
 @end

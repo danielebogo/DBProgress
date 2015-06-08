@@ -13,7 +13,7 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
 
 
 @implementation DBProgressView {
-    CALayer *bgLayer_, *progressLayer_;
+    CALayer *progressLayer_, *borderLayer_;
     CALayer *maskLayer_;
     CGFloat lastHeightValue_;
 }
@@ -25,27 +25,33 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        self.backgroundColor = [UIColor clearColor];
-        
         lastHeightValue_ = 0.0;
         
         _animationDuration = .3;
+        _borderWidth = 2.0;
+        _borderColor = [UIColor blueColor];
+        _progressColor = [UIColor greenColor];
         
         [self db_buildUI];
+        
+        self.progress = 0;
     }
     return self;
 }
 
 - (void)layoutSubviews
 {
-    bgLayer_.frame = self.bounds;
     progressLayer_.frame = self.bounds;
+    borderLayer_.frame = self.bounds;
+    borderLayer_.cornerRadius = CGRectGetMidX(self.bounds);
     maskLayer_.frame = self.bounds;
-    maskLayer_.cornerRadius = CGRectGetMidX(self.bounds);
+    maskLayer_.cornerRadius = borderLayer_.cornerRadius;
 }
 
 - (void)setProgress:(CGFloat)progress
 {
+    _progress = progress;
+    
     if (progress >= maxPercentage) {
         progress = maxPercentage;
     }
@@ -58,10 +64,18 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
     grow.duration = self.animationDuration;
     grow.fillMode = kCAFillModeForwards;
     grow.removedOnCompletion = NO;
+    grow.delegate = self;
+    grow.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
 
     [progressLayer_ addAnimation:grow forKey:kDBGrowHeightAnimationKey];
     
     lastHeightValue_ = toValue;
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth
+{
+    _borderWidth = borderWidth;
+    borderLayer_.borderWidth = borderWidth;
 }
 
 
@@ -69,20 +83,41 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
 
 - (void)db_buildUI
 {
-    bgLayer_ = [CALayer layer];
-    bgLayer_.backgroundColor = [UIColor greenColor].CGColor;
-    [self.layer addSublayer:bgLayer_];
+    self.backgroundColor = [UIColor whiteColor];
     
     progressLayer_ = [CALayer layer];
-    progressLayer_.backgroundColor = [UIColor blueColor].CGColor;
+    progressLayer_.backgroundColor = _progressColor.CGColor;
     progressLayer_.anchorPoint = (CGPoint){ 0.5, 1.0 };
     [self.layer addSublayer:progressLayer_];
     
+    borderLayer_ = [CALayer layer];
+    borderLayer_.borderWidth = _borderWidth;
+    borderLayer_.borderColor = _borderColor.CGColor;
+    borderLayer_.cornerRadius = CGRectGetMidX(self.bounds);
+    [self.layer addSublayer:borderLayer_];
+    
     maskLayer_ = [CALayer layer];
-    maskLayer_.backgroundColor = [UIColor whiteColor].CGColor;
-    maskLayer_.cornerRadius = CGRectGetMidX(self.bounds);
+    maskLayer_.backgroundColor = [UIColor blackColor].CGColor;
+    maskLayer_.cornerRadius = borderLayer_.cornerRadius;
     
     self.layer.mask = maskLayer_;
+}
+
+
+#pragma mark - CAAnimationDelegate
+
+- (void)animationDidStart:(CAAnimation *)anim
+{
+    if (self.progressAnimationDidStart) {
+        self.progressAnimationDidStart();
+    }
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (self.progressAnimationDidFinish) {
+        self.progressAnimationDidFinish(flag, _progress);
+    }
 }
 
 @end

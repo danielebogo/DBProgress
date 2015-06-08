@@ -25,7 +25,12 @@
     items_ = @[ @"0", @"50.0", @"100.0", @"14.0", @"35.0", @"67.0" ];
     
     progressView_ = [DBProgressView new];
-    progressView_.progress = 0.0;
+    progressView_.progressAnimationDidStart = ^{
+        NSLog(@"Animation di start");
+    };
+    progressView_.progressAnimationDidFinish = ^(BOOL finish, CGFloat progress){
+        NSLog(@"Animation did stop %f", progress);
+    };
     [self.view addSubview:progressView_];
     
     UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:items_];
