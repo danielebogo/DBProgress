@@ -16,6 +16,7 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
     CALayer *progressLayer_, *borderLayer_;
     CALayer *maskLayer_;
     CGFloat lastHeightValue_;
+    BOOL setProgressForAnimation_;
 }
 
 
@@ -26,6 +27,7 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
         lastHeightValue_ = 0.0;
+        setProgressForAnimation_ = NO;
         
         _animationDuration = .3;
         _borderWidth = 2.0;
@@ -52,24 +54,7 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
 {
     _progress = progress;
     
-    if (progress >= maxPercentage) {
-        progress = maxPercentage;
-    }
-    
-    CGFloat toValue = (progress/maxPercentage) * CGRectGetHeight(self.bounds);
-    
-    CABasicAnimation *grow = [CABasicAnimation animationWithKeyPath:@"bounds.size.height"];
-    grow.fromValue = @(lastHeightValue_);
-    grow.toValue = @(toValue);
-    grow.duration = self.animationDuration;
-    grow.fillMode = kCAFillModeForwards;
-    grow.removedOnCompletion = NO;
-    grow.delegate = self;
-    grow.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-
-    [progressLayer_ addAnimation:grow forKey:kDBGrowHeightAnimationKey];
-    
-    lastHeightValue_ = toValue;
+    [self setProgress:progress animated:NO];
 }
 
 - (void)setBorderWidth:(CGFloat)borderWidth
@@ -78,6 +63,32 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
     borderLayer_.borderWidth = borderWidth;
 }
 
+
+#pragma mark - Public methods
+
+- (void)setProgress:(CGFloat)progress animated:(BOOL)animated
+{
+    if (progress >= maxPercentage) {
+        progress = maxPercentage;
+    }
+    
+    setProgressForAnimation_ = animated;
+    
+    CGFloat toValue = (progress/maxPercentage) * CGRectGetHeight(self.bounds);
+    
+    CABasicAnimation *grow = [CABasicAnimation animationWithKeyPath:@"bounds.size.height"];
+    grow.fromValue = @(lastHeightValue_);
+    grow.toValue = @(toValue);
+    grow.duration = setProgressForAnimation_ ? self.animationDuration : 0.1;
+    grow.fillMode = kCAFillModeForwards;
+    grow.removedOnCompletion = NO;
+    grow.delegate = self;
+    grow.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    
+    [progressLayer_ addAnimation:grow forKey:kDBGrowHeightAnimationKey];
+    
+    lastHeightValue_ = toValue;
+}
 
 #pragma mark - Private methods
 
@@ -108,14 +119,14 @@ static NSString *const kDBGrowHeightAnimationKey = @"kDBGrowHeightAnimationKey";
 
 - (void)animationDidStart:(CAAnimation *)anim
 {
-    if (self.progressAnimationDidStart) {
+    if (self.progressAnimationDidStart && setProgressForAnimation_) {
         self.progressAnimationDidStart();
     }
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    if (self.progressAnimationDidFinish) {
+    if (self.progressAnimationDidFinish && setProgressForAnimation_) {
         self.progressAnimationDidFinish(flag, _progress);
     }
 }

@@ -7,45 +7,31 @@
 //
 
 #import "ViewController.h"
-#import "DBProgressView.h"
+#import "SingleProgressViewController.h"
+#import "MultiProgressTableViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @end
 
 @implementation ViewController {
-    DBProgressView *progressView_;
     NSArray *items_;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    items_ = @[ @"0", @"50.0", @"100.0", @"14.0", @"35.0", @"67.0" ];
     
-    progressView_ = [DBProgressView new];
-    progressView_.progressAnimationDidStart = ^{
-        NSLog(@"Animation di start");
-    };
-    progressView_.progressAnimationDidFinish = ^(BOOL finish, CGFloat progress){
-        NSLog(@"Animation did stop %f", progress);
-    };
-    [self.view addSubview:progressView_];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    [self.view addSubview:tableView];
     
-    UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:items_];
-    segmented.translatesAutoresizingMaskIntoConstraints = NO;
-    segmented.selectedSegmentIndex = 0;
-    [segmented addTarget:self action:@selector(db_segmentedAction:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:segmented];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(progressView_, segmented);
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:progressView_ attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[progressView_(200)]" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-25-[segmented]-25-|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-100-[progressView_(200)]" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[segmented(50)]-25-|" options:0 metrics:nil views:views]];
+    items_ = @[ @"Single Progress", @"Table Progress" ];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -53,10 +39,40 @@
     [super viewDidAppear:animated];
 }
 
-- (void)db_segmentedAction:(UISegmentedControl *)control
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    progressView_.progress = [items_[control.selectedSegmentIndex] floatValue];
+    return items_.count;
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *reuseIdentifier = @"kReuseIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    }
+    
+    cell.textLabel.text = items_[indexPath.row];
+    
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case 0:
+            [self.navigationController pushViewController:[SingleProgressViewController new] animated:YES];
+            break;
+            
+        default:
+            [self.navigationController pushViewController:[MultiProgressTableViewController new] animated:YES];
+            break;
+    }
+}
 
 @end

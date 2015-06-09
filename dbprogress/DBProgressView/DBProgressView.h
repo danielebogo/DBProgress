@@ -45,4 +45,12 @@
  */
 @property (nonatomic, copy) void(^progressAnimationDidFinish)(BOOL finish, CGFloat progress);
 
+/**
+ *  Set progress value with animation
+ *
+ *  @param progress progress value
+ *  @param animated animate the progress bar
+ */
+- (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
+
 @end

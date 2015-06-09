@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A2137D51B2704B600A1E54B /* MultiProgressTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2137D41B2704B600A1E54B /* MultiProgressTableViewController.m */; };
 		9A26B7871B24F81F00BAA699 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A26B7861B24F81F00BAA699 /* main.m */; };
 		9A26B78A1B24F81F00BAA699 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A26B7891B24F81F00BAA699 /* AppDelegate.m */; };
 		9A26B78D1B24F81F00BAA699 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A26B78C1B24F81F00BAA699 /* ViewController.m */; };
@@ -15,6 +16,7 @@
 		9A26B7951B24F81F00BAA699 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A26B7931B24F81F00BAA699 /* LaunchScreen.xib */; };
 		9A26B7A11B24F81F00BAA699 /* dbprogressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A26B7A01B24F81F00BAA699 /* dbprogressTests.m */; };
 		9A26B7AC1B24F87A00BAA699 /* DBProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A26B7AB1B24F87A00BAA699 /* DBProgressView.m */; };
+		9A7AF6C91B25FCD5000E0276 /* SingleProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A7AF6C81B25FCD5000E0276 /* SingleProgressViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9A2137D31B2704B600A1E54B /* MultiProgressTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiProgressTableViewController.h; sourceTree = "<group>"; };
+		9A2137D41B2704B600A1E54B /* MultiProgressTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiProgressTableViewController.m; sourceTree = "<group>"; };
 		9A26B7811B24F81F00BAA699 /* dbprogress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dbprogress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A26B7851B24F81F00BAA699 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A26B7861B24F81F00BAA699 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -43,6 +47,8 @@
 		9A26B7A01B24F81F00BAA699 /* dbprogressTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = dbprogressTests.m; sourceTree = "<group>"; };
 		9A26B7AA1B24F87A00BAA699 /* DBProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBProgressView.h; path = DBProgressView/DBProgressView.h; sourceTree = "<group>"; };
 		9A26B7AB1B24F87A00BAA699 /* DBProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBProgressView.m; path = DBProgressView/DBProgressView.m; sourceTree = "<group>"; };
+		9A7AF6C71B25FCD5000E0276 /* SingleProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleProgressViewController.h; sourceTree = "<group>"; };
+		9A7AF6C81B25FCD5000E0276 /* SingleProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleProgressViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,10 @@
 				9A26B7891B24F81F00BAA699 /* AppDelegate.m */,
 				9A26B78B1B24F81F00BAA699 /* ViewController.h */,
 				9A26B78C1B24F81F00BAA699 /* ViewController.m */,
+				9A7AF6C71B25FCD5000E0276 /* SingleProgressViewController.h */,
+				9A7AF6C81B25FCD5000E0276 /* SingleProgressViewController.m */,
+				9A2137D31B2704B600A1E54B /* MultiProgressTableViewController.h */,
+				9A2137D41B2704B600A1E54B /* MultiProgressTableViewController.m */,
 				9A26B78E1B24F81F00BAA699 /* Main.storyboard */,
 				9A26B7911B24F81F00BAA699 /* Images.xcassets */,
 				9A26B7931B24F81F00BAA699 /* LaunchScreen.xib */,
@@ -235,6 +245,8 @@
 				9A26B78D1B24F81F00BAA699 /* ViewController.m in Sources */,
 				9A26B7AC1B24F87A00BAA699 /* DBProgressView.m in Sources */,
 				9A26B78A1B24F81F00BAA699 /* AppDelegate.m in Sources */,
+				9A7AF6C91B25FCD5000E0276 /* SingleProgressViewController.m in Sources */,
+				9A2137D51B2704B600A1E54B /* MultiProgressTableViewController.m in Sources */,
 				9A26B7871B24F81F00BAA699 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
